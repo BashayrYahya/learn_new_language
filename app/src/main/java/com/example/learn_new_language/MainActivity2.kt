@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 
@@ -35,7 +36,6 @@ class MainActivity2 : AppCompatActivity() {
     private lateinit var navigationView: NavigationView
     private lateinit var bottomNav :BottomNavigationView
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var nameUser : TextView
     lateinit var fireAuth : FirebaseAuth
     lateinit var fireStore  : FirebaseFirestore
 
@@ -46,7 +46,8 @@ class MainActivity2 : AppCompatActivity() {
 
         fireAuth = FirebaseAuth.getInstance()
         fireStore = FirebaseFirestore.getInstance()
-//        nameUser = findViewById(R.id.name_user)
+
+
 
 
 

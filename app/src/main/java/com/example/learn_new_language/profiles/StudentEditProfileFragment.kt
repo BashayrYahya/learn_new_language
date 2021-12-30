@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -36,7 +37,10 @@ class StudentEditProfileFragment : Fragment() {
     private lateinit var updateBtn: Button
     private lateinit var emailEdit: EditText
     private lateinit var teacherExperienceEdit : EditText
+    private lateinit var teacherExperience :TextView
     private lateinit var imgUri : Uri
+    lateinit var firestore: FirebaseFirestore
+
 
 
 
@@ -59,8 +63,11 @@ class StudentEditProfileFragment : Fragment() {
         phoneNumEdit=view.findViewById(R.id.phoneNumEdit)
         emailEdit = view.findViewById(R.id.emailEdit)
         teacherExperienceEdit =view.findViewById(R.id.teacherExperienceEdit)
+        teacherExperience = view.findViewById(R.id.teacherExpeirence)
         updateBtn=view.findViewById(R.id.updateBtn)
+        firestore = FirebaseFirestore.getInstance()
 
+        visibilityOfTeacherExperience()
 
         //open studio of user to take pic profile
         imgProfile.setOnClickListener {
@@ -85,6 +92,24 @@ class StudentEditProfileFragment : Fragment() {
         return view
     }
 
+    private fun visibilityOfTeacherExperience() {
+        teacherExperienceEdit.visibility =
+            if (firestore.collection("Users") == firestore.collection("Users")
+                    .whereEqualTo("isAdmin", "1")
+            ) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+        teacherExperience.visibility =
+            if (firestore.collection("Users") == firestore.collection("Users")
+                    .whereEqualTo("isAdmin", "1")
+            ) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -139,6 +164,7 @@ private fun readFireStoreData() {
                         "phone" -> phoneNumEdit.setText(it.value.toString())
                             "email" ->emailEdit.setText(it.value.toString())
                         "teacherExperience"-> teacherExperienceEdit.setText(it.value.toString())
+
 
 
 

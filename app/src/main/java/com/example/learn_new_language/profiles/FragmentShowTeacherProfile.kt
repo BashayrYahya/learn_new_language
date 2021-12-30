@@ -19,6 +19,7 @@ class FragmentShowTeacherProfile : Fragment() {
 
     private lateinit var teacherName : TextView
     private lateinit var teacherInfo : TextView
+    private lateinit var teacherEmail:TextView
 
     private val args:FragmentShowTeacherProfileArgs by navArgs()
 
@@ -36,8 +37,9 @@ class FragmentShowTeacherProfile : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_show_teacher_profile, container, false)
-       teacherName = view.findViewById(R.id.text_profileName)
+        teacherName = view.findViewById(R.id.text_profileName)
         teacherInfo= view.findViewById(R.id.teacher_info)
+        teacherEmail = view.findViewById(R.id.teacher_email)
 
 
         return view
@@ -55,6 +57,7 @@ class FragmentShowTeacherProfile : Fragment() {
                     val result = value?.toObjects(User::class.java)?.get(0)
                     teacherName.text = result?.fullName
                     teacherInfo.text = result?.teacherExperience
+                    teacherEmail.text = result?.email
 
                 }
 

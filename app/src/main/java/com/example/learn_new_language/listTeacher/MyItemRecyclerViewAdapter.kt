@@ -4,15 +4,17 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.TextView
 import androidx.navigation.findNavController
 import com.example.learn_new_language.R
 
 
 
-class TeacherAdapter(private val userList: ArrayList<User>) : RecyclerView.Adapter<TeacherAdapter.TeacherListHolder>() {
+class TeacherAdapter(private val userList: ArrayList<User>) : RecyclerView.Adapter<TeacherAdapter.TeacherListHolder>(){
 
-
+    lateinit var userArrayList: ArrayList<User>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeacherListHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
@@ -20,7 +22,7 @@ class TeacherAdapter(private val userList: ArrayList<User>) : RecyclerView.Adapt
             parent ,
         false  )
 
-
+        userArrayList = ArrayList()
         return TeacherListHolder(itemView)
 
     }
@@ -63,10 +65,6 @@ class TeacherAdapter(private val userList: ArrayList<User>) : RecyclerView.Adapt
 
 
     }
-
-
-
-
 
 
 }

@@ -48,5 +48,6 @@
     <string name="teacher_name">Teacher name</string>
     <string name="description">description</string>
     <string name="nameteacher">nameTeacher</string>
+    <string name="search">searsh</string>
 
 </resources>

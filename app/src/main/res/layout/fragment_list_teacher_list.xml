@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/recycler_teachers"
-    android:name="com.example.final_project_english_learn_app.ListTeacherFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
-    android:layoutAnimation="@anim/item_layout_anim"
-    tools:context=".listTeacher.ListTeacherFragment"
-    tools:listitem="@layout/fragment_list_teacher" />
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SearchView
+        android:id="@+id/search_view"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:background="@drawable/edittext_style"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight="wrap_content_constrained"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.062"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.recyclerview.widget.RecyclerView
+
+        android:id="@+id/recycler_teachers"
+        android:name="com.example.final_project_english_learn_app.ListTeacherFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:layout_marginTop="0dp"
+        android:layoutAnimation="@anim/item_layout_anim"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_view"
+        app:layout_constraintVertical_bias="0.347" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

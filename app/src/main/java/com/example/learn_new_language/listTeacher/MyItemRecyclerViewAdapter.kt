@@ -4,15 +4,14 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import android.widget.TextView
 import androidx.navigation.findNavController
 import com.example.learn_new_language.R
 
 
 
-class TeacherAdapter(private val userList: ArrayList<User>) : RecyclerView.Adapter<TeacherAdapter.TeacherListHolder>(){
+class TeacherAdapter(private val userList: ArrayList<User>)
+    : RecyclerView.Adapter<TeacherAdapter.TeacherListHolder>(){
 
     lateinit var userArrayList: ArrayList<User>
 
@@ -31,6 +30,7 @@ class TeacherAdapter(private val userList: ArrayList<User>) : RecyclerView.Adapt
         val user : User = userList[position]
     holder.teacherName.text = user.fullName
     holder.infoTeacher.text = user.teacherExperience
+     //   holder.textName.text = user.fullName
 
         holder.bind(user)
 
@@ -44,6 +44,7 @@ class TeacherAdapter(private val userList: ArrayList<User>) : RecyclerView.Adapt
     inner class TeacherListHolder(view:View) : RecyclerView.ViewHolder(view) {
         val teacherName :TextView = view.findViewById(R.id.nameTeacher)
         val infoTeacher :TextView = view.findViewById(R.id.aboutTeacher)
+       // val textName: TextView = itemView.findViewById(R.id.textName)
         private lateinit var teacher:User
 
 

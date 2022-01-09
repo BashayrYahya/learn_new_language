@@ -15,11 +15,6 @@
         android:iconTint="#1A237E"
        android:title="chat" />
     <item
-        android:id="@+id/calenderFragment"
-        android:icon="@drawable/ic_baseline_calendar_month_24"
-        android:iconTint="#1A237E"
-        android:title="calender"/>
-    <item
         android:id="@+id/youtubeFragment"
         android:icon="@drawable/ic_baseline_video_library_24"
         android:iconTint="#1A237E"

@@ -2,6 +2,7 @@ package com.example.learn_new_language.profiles
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
+import com.example.learn_new_language.Repository
 import de.hdodenhof.circleimageview.CircleImageView
 
 class ProfileViewModel : ViewModel () {

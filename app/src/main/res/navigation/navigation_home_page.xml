@@ -7,7 +7,14 @@
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.example.learn_new_language.chat.ChatFragment"
-        android:label="ChatFragment" />
+        android:label="ChatFragment" >
+        <argument
+            android:name="uid"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_chatFragment_to_fragmentShowTeacherProfile"
+            app:destination="@id/fragmentShowTeacherProfile" />
+    </fragment>
     <fragment
         android:id="@+id/listTeacherFragment"
         android:name="com.example.learn_new_language.listTeacher.ListTeacherFragment"
@@ -35,9 +42,29 @@
         <action
             android:id="@+id/action_fragmentShowTeacherProfile_to_listTeacherFragment"
             app:destination="@id/listTeacherFragment" />
+        <action
+            android:id="@+id/action_fragmentShowTeacherProfile_to_chatFragment"
+            app:destination="@id/chatFragment" />
     </fragment>
     <fragment
         android:id="@+id/youtubeFragment"
         android:name="com.example.learn_new_language.youtubeVideos.YoutubeFragment"
         android:label="YoutubeFragment" />
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.example.learn_new_language.setting.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/action_settingFragment_to_registerFragment2"
+            app:destination="@id/registerFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment2"
+        android:name="com.example.learn_new_language.login_register.RegisterFragment"
+        android:label="RegisterFragment" >
+        <action
+            android:id="@+id/action_registerFragment2_to_settingFragment"
+            app:destination="@id/settingFragment" />
+    </fragment>
 </navigation>

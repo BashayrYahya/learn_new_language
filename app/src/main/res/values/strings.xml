@@ -47,7 +47,13 @@
     <string name="email">Email</string>
     <string name="teacher_name">Teacher name</string>
     <string name="description">description</string>
-    <string name="nameteacher">nameTeacher</string>
+    <string name="nameTeacher">nameTeacher</string>
     <string name="search">searsh</string>
+    <string name="type_a_message">Type a message</string>
+    <string name="text_send_message">text send message</string>
+    <string name="nameSender">nameSender</string>
+    <string name="your_profile">Your profile</string>
+    <string name="app_language">change language</string>
+    <string name="delete_account">delete account</string>
 
 </resources>

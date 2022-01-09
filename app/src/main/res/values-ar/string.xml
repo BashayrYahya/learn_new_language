@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name = "app_name"> final_project_english_learn_app </string>
+    <string name = "hello_blank_fragment"> تجزئة الدردشة </string>
+    <string name = "title_activity_main_activity2_home"> MainActivity2Home </string>
+    <string name = "title_home"> الصفحة الرئيسية </string>
+    <string name = "title_dashboard"> لوحة المعلومات </string>
+    <string name = "title_notifications"> الإخطارات </string>
+
+    <string name = "first_fragment_label"> الجزء الأول </string>
+    <string name = "second_fragment_label"> الجزء الثاني </string>
+    <string name = "next"> التالي </string>
+    <string name = "previous"> السابق </string>
+
+    <string name = "hello_first_fragment"> مرحبًا الجزء الأول </string>
+    <string name = "hello_second_fragment"> مرحبًا الجزء الثاني </string>
+    <string name = "teacher"> المعلم </string>
+    <string name = "student"> الطالب </string>
+    <string name = "already_have_a_account_click_here"> لديك حساب بالفعل ، انقر (هنا) </string>
+    <string name = "register"> التسجيل </string>
+    <string name = "password_hint"> كلمة المرور </string>
+    <string name = "register_btn"> تسجيل </string>
+    <string name = "phone_number_hint"> رقم الهاتف </string>
+    <string name = "email_hint"> البريد الإلكتروني </string>
+    <string name = "name_hint"> الاسم </string>
+    <string name = "share"> مشاركة </string>
+    <string name = "logout"> تسجيل الخروج </string>
+    <string name = "setting"> الإعداد </string>
+    <string name = "profile"> الملف الشخصي </string>
+    <string name = "open_menu"> فتح </string>
+    <string name = "close_menu"> إغلاق </string>
+    <string name = "experience_hint"> أدخل تجربتك ولغاتك </string>
+    <string name = "phone_number"> رقم الهاتف </string>
+    <string name = "edit_profile"> تحرير ملف التعريف </string>
+    <string name = "your_phone"> هاتفك </string>
+    <string name = "full_name"> الاسم الكامل </string>
+    <string name = "emile"> emile </string>
+    <string name = "experience"> الخبرة </string>
+    <string name = "write_all_your_experience_and_languages"> اكتب كل خبرتك ولغاتك </string>
+    <string name = "write_your_full_name"> اكتب اسمك بالكامل </string>
+    <string name = "update"> update </string>
+    <string name = "login"> تسجيل الدخول </string>
+    <string name = "login_cap"> تسجيل الدخول </string>
+    <string name = "register_cap"> تسجيل </string>
+    <string name = "password"> كلمة المرور </string>
+    <string name = "email"> البريد الإلكتروني </string>
+    <string name = "teacher_name"> اسم المدرس </string>
+    <string name = "description"> الوصف </string>
+    <string name = "nameTeacher"> nameTeacher </string>
+    <string name = "search"> بحث </string>
+    <string name = "type_a_message"> اكتب رسالة </string>
+    <string name = "text_send_message"> إرسال رسالة نصية </string>
+    <string name = "nameSender"> nameSender </string>
+    <string name = "your_profile"> ملفك الشخصي </string>
+    <string name="communicate">تواصل</string>
+    <string name="notification">الاشعارات</string>
+    <string name="app_language">تغيير اللغة </string>
+
+</resources>

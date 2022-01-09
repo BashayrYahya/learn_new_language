@@ -4,29 +4,27 @@ package com.example.learn_new_language
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
-import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
-
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
-import com.example.learn_new_language.login_register.LoginFragment
+import androidx.work.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import java.util.concurrent.TimeUnit
 
 
 const val APP_ID = "7933a2aa5882442d964f34df30bf6a2b"
+const val WORK_ID = ""
 
 class MainActivity2 : AppCompatActivity() {
 
@@ -39,6 +37,7 @@ class MainActivity2 : AppCompatActivity() {
     lateinit var fireAuth : FirebaseAuth
     lateinit var fireStore  : FirebaseFirestore
 
+
   //  @ExperimentalUnsignedTypes
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +48,12 @@ class MainActivity2 : AppCompatActivity() {
 
 
 
+      setupRecurringWork()
 
 
 
 
-        // button navigation
+      // button navigation
         navigationView = findViewById(R.id.navigation_view)
         navController = findNavController(R.id.fragmentContainerView2)
         bottomNav =findViewById(R.id.bottomNav)
@@ -92,8 +92,11 @@ class MainActivity2 : AppCompatActivity() {
             }
             R.id.logout_icon -> {
                 fireAuth.signOut()
-                val intent = Intent(this, LoginFragment::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
+            }
+            R.id.setting_icon -> {
+                navController.navigate(R.id.settingFragment)
             }
 
 
@@ -129,6 +132,23 @@ class MainActivity2 : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         super.onSupportNavigateUp()
         return NavigationUI.navigateUp(navController,appBarConfiguration)
+    }
+
+    private fun setupRecurringWork() {
+
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val workRequest = PeriodicWorkRequestBuilder<Worker>(15, TimeUnit.MINUTES)
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            WORK_ID,
+            ExistingPeriodicWorkPolicy.KEEP,
+            workRequest)
+
     }
 
 

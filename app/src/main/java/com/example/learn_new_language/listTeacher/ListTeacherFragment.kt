@@ -17,12 +17,10 @@ import kotlin.collections.ArrayList
 class ListTeacherFragment : Fragment() {
 
     private lateinit var searchView: SearchView
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var teacherRecyclerView: RecyclerView
     lateinit var userArrayList: ArrayList<User>
     lateinit var filterUserArrayList: ArrayList<User>
     lateinit var teacherAdapter: TeacherAdapter
-
-    //private lateinit var filterTeacherAdapter: TeacherAdapter
     lateinit var firestore: FirebaseFirestore
 
 
@@ -38,16 +36,16 @@ class ListTeacherFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_list_teacher_list, container, false)
         searchView = view.findViewById(R.id.search_view)
-        recyclerView = view.findViewById(R.id.recycler_teachers)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.hasFixedSize()
+        teacherRecyclerView = view.findViewById(R.id.recycler_teachers)
+        teacherRecyclerView.layoutManager = LinearLayoutManager(context)
+        teacherRecyclerView.hasFixedSize()
         userArrayList = ArrayList()
         filterUserArrayList = ArrayList()
         teacherAdapter = TeacherAdapter(userArrayList)
-        recyclerView.adapter = teacherAdapter
+        teacherRecyclerView.adapter = teacherAdapter
 
         //recyclerView.adapter = filterTeacherAdapter
-        recyclerView.setOnClickListener { recyclerView.startLayoutAnimation() }
+        teacherRecyclerView.setOnClickListener { teacherRecyclerView.startLayoutAnimation() }
 
         // make a search inside recycler of teachers
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -63,22 +61,17 @@ class ListTeacherFragment : Fragment() {
                         userArrayList.forEach {
                             if (it.fullName.lowercase(Locale.getDefault()).contains(search)) {
                                 filterUserArrayList.add(it)
-
                             }
-                            recyclerView.adapter = TeacherAdapter(filterUserArrayList)
+                            teacherRecyclerView.adapter = TeacherAdapter(filterUserArrayList)
                         }
 
                     } else {
                         filterUserArrayList.clear()
-
-                        recyclerView.adapter = TeacherAdapter(userArrayList)
+                        teacherRecyclerView.adapter = TeacherAdapter(userArrayList)
                     }
                 }
-
-
                 return false
             }
-
         })
 
 
@@ -93,7 +86,7 @@ class ListTeacherFragment : Fragment() {
 
         firestore = FirebaseFirestore.getInstance()
         firestore.collection("Users").orderBy("fullName", Query.Direction.ASCENDING)
-            .whereEqualTo("isAdmin", "1")
+            .whereEqualTo("admin", "1")
             .addSnapshotListener(object : EventListener<QuerySnapshot> {
 
 

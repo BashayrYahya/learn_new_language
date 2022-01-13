@@ -5,7 +5,7 @@
     android:id="@+id/navigation_home_page"
     app:startDestination="@id/listTeacherFragment">
     <fragment
-        android:id="@+id/chatFragment"
+        android:id="@+id/settingFragment"
         android:name="com.example.learn_new_language.chat.ChatFragment"
         android:label="ChatFragment" >
         <argument
@@ -44,7 +44,7 @@
             app:destination="@id/listTeacherFragment" />
         <action
             android:id="@+id/action_fragmentShowTeacherProfile_to_chatFragment"
-            app:destination="@id/chatFragment" />
+            app:destination="@id/settingFragment" />
     </fragment>
     <fragment
         android:id="@+id/youtubeFragment"
@@ -58,6 +58,9 @@
         <action
             android:id="@+id/action_settingFragment_to_registerFragment2"
             app:destination="@id/registerFragment2" />
+        <action
+            android:id="@+id/action_settingFragment_to_loginFragment2"
+            app:destination="@id/loginFragment2" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment2"
@@ -65,6 +68,14 @@
         android:label="RegisterFragment" >
         <action
             android:id="@+id/action_registerFragment2_to_settingFragment"
+            app:destination="@id/settingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment2"
+        android:name="com.example.learn_new_language.login_register.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment2_to_settingFragment"
             app:destination="@id/settingFragment" />
     </fragment>
 </navigation>

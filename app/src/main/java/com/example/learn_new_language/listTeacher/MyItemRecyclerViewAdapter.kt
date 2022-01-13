@@ -55,7 +55,8 @@ class TeacherAdapter(private val userList: ArrayList<User>)
         init {
 
                 itemView.setOnClickListener {
-                        val action = ListTeacherFragmentDirections.actionListTeacherFragmentToFragmentShowTeacherProfile(teacher.email)
+                        val action = ListTeacherFragmentDirections
+                            .actionListTeacherFragmentToFragmentShowTeacherProfile(teacher.email)
                        it.findNavController().navigate(action)
 
 

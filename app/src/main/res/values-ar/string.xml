@@ -25,7 +25,7 @@
     <string name = "name_hint"> الاسم </string>
     <string name = "share"> مشاركة </string>
     <string name = "logout"> تسجيل الخروج </string>
-    <string name = "setting"> الإعداد </string>
+    <string name = "setting"> الإعدادات </string>
     <string name = "profile"> الملف الشخصي </string>
     <string name = "open_menu"> فتح </string>
     <string name = "close_menu"> إغلاق </string>
@@ -34,7 +34,7 @@
     <string name = "edit_profile"> تحرير ملف التعريف </string>
     <string name = "your_phone"> هاتفك </string>
     <string name = "full_name"> الاسم الكامل </string>
-    <string name = "emile"> emile </string>
+    <string name = "emile"> الايميل </string>
     <string name = "experience"> الخبرة </string>
     <string name = "write_all_your_experience_and_languages"> اكتب كل خبرتك ولغاتك </string>
     <string name = "write_your_full_name"> اكتب اسمك بالكامل </string>
@@ -55,5 +55,8 @@
     <string name="communicate">تواصل</string>
     <string name="notification">الاشعارات</string>
     <string name="app_language">تغيير اللغة </string>
+    <string name="delete_account">حذف الحساب</string>
+    <string name="list_teacher">المعلمين</string>
+    <string name="video">الفديوهات</string>
 
 </resources>

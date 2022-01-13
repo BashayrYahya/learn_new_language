@@ -4,6 +4,7 @@ package com.example.learn_new_language
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -48,7 +49,7 @@ class MainActivity2 : AppCompatActivity() {
 
 
 
-      setupRecurringWork()
+
 
 
 
@@ -64,19 +65,16 @@ class MainActivity2 : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph,drawerLayout)
         NavigationUI.setupActionBarWithNavController(this,navController,drawerLayout)
 
-
         // drawer navigation
         NavigationUI.setupWithNavController(navigationView,navController)
-
       ActionBarDrawerToggle(this, drawerLayout, R.string.open_menu, R.string.close_menu)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-
         navigationView.setNavigationItemSelectedListener {
             return@setNavigationItemSelectedListener SetNavigateDrower(it)
-
         }
 
+      setupRecurringWork()
       readNameOfUser()
 
     }
@@ -100,8 +98,11 @@ class MainActivity2 : AppCompatActivity() {
             }
 
 
+
         }; return true
     }
+
+
 
 
     // get the name of user an put it in draw nav
@@ -134,6 +135,8 @@ class MainActivity2 : AppCompatActivity() {
         return NavigationUI.navigateUp(navController,appBarConfiguration)
     }
 
+
+    //managing the work manager
     private fun setupRecurringWork() {
 
         val constraints = Constraints.Builder()
@@ -150,6 +153,10 @@ class MainActivity2 : AppCompatActivity() {
             workRequest)
 
     }
+
+
+
+
 
 
     }

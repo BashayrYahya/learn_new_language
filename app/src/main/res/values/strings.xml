@@ -55,5 +55,7 @@
     <string name="your_profile">Your profile</string>
     <string name="app_language">change language</string>
     <string name="delete_account">delete account</string>
+    <string name="list_teacher">list teacher</string>
+    <string name="video">videos</string>
 
 </resources>

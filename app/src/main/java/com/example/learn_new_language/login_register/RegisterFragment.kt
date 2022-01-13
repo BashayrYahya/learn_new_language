@@ -2,6 +2,7 @@ package com.example.learn_new_language.login_register
 
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,10 +15,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import android.widget.RadioGroup
 import androidx.lifecycle.ViewModelProvider
+import com.example.learn_new_language.MainActivity2
 import com.example.learn_new_language.R
+import com.example.learn_new_language.listTeacher.User
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.FirebaseUser
 
 private const val TAG = "RegisterFragment"
+private const val TAG1 = "RegisterFragment"
 
 class RegisterFragment : Fragment() {
 
@@ -29,21 +34,21 @@ class RegisterFragment : Fragment() {
     private lateinit var registerBtn: Button
     private lateinit var goToLogin: Button
     private lateinit var experienceInput: TextInputLayout
-    lateinit var experienceEditText: EditText
+    private lateinit var experienceEditText: EditText
     private lateinit var fireAuth: FirebaseAuth
-    lateinit var fireStore: FirebaseFirestore
+    private lateinit var fireStore: FirebaseFirestore
     private lateinit var radioGroup: RadioGroup
     lateinit var isTeacher: RadioButton
     lateinit var isStudent: RadioButton
-
+    lateinit var userClassData :User
     private var isAdmin = ""
-
     private var experience = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        FirebaseAuth.getInstance().also { fireAuth = it }
+        fireAuth =  FirebaseAuth.getInstance()
         fireStore = FirebaseFirestore.getInstance()
+        userClassData = User()
 
 
 
@@ -80,14 +85,51 @@ class RegisterFragment : Fragment() {
         registerBtn.setOnClickListener{
             experience = experienceEditText.text.toString()
             registerViewModel.funOfNewRegister(fullName.text.toString(),email.text.toString(),password.text.toString(),phone.text.toString(),isAdmin,experience,requireContext())
+           fireAuth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
+                .addOnCompleteListener() { task ->
+                    if (task.isSuccessful) {
+
+                        val user: FirebaseUser = fireAuth.currentUser!!
+
+                        // if register was successful will move user to main Activity home
+                        Log.d("TAG", "createUserWithEmail:success")
+                        val intent = Intent(context, MainActivity2::class.java)
+                        startActivity(intent)
+                        Toast.makeText(context, "account created successfully", Toast.LENGTH_SHORT)
+                            .show()
+
+                        userClassData.uid = user.uid
+
+                        //save users data on fireBaseStore
+                        fireStore.collection("Users").document(user.uid)
+                            .set(userClassData).addOnSuccessListener {
+                                Log.e(TAG1, "done")
+
+                            }.addOnFailureListener {
+                                Log.e(TAG1, "something gone wrong", it)
+                            }
+
+
+                    } else {
+                        // If register failed, display a message to the user.
+                        Log.w(TAG1, "createUserWithEmail:failure", task.exception)
+                        Toast.makeText(
+                            context,
+                            "Authentication failed ,${task.exception}.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                    }
+                }
+
+
         }
 
         goToLogin.setOnClickListener {
-
             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
-
         }
 
+        //manging a group radio and specify teachers and students
         radioGroup.setOnCheckedChangeListener { _, checkedId -> // checkedId is the RadioButton selected
 
             when(checkedId){

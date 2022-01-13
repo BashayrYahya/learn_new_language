@@ -16,14 +16,14 @@ class MessageAdapter(val context: Context , private val messageList: ArrayList<M
     val ITEM_RECEIVED =1
     val ITEM_SENt = 2
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-
-
+         // inflate  mag receiver item  with its layout
         return if (viewType == 1){   // inflate receive
             val view: View = LayoutInflater.from(parent.context)
                 .inflate(R.layout.msg_received, parent, false)
             ReceiveViewHolder(view)
-        } else {      // inflate send
+        } else {      //   inflate  mag sent item  with its layout
             val view: View = LayoutInflater.from(parent.context)
                 .inflate(R.layout.send_msg, parent, false)
             SendViewHolder(view)
@@ -32,15 +32,14 @@ class MessageAdapter(val context: Context , private val messageList: ArrayList<M
 
 
 
-
-
-
-}
+    }
 
 
 
     override fun getItemViewType(position: Int): Int {
 
+        // get current user msg with sender id
+        //get received msg with receiver id
         val currentMessage = messageList[position]
         return if (FirebaseAuth.getInstance().currentUser?.uid.equals(currentMessage.senderId)){
 
@@ -55,11 +54,14 @@ class MessageAdapter(val context: Context , private val messageList: ArrayList<M
 
     override fun getItemCount(): Int {
         Log.d("TAG", "getItemCount: $messageList")
-        return messageList.size}
+        return messageList.size
+    }
 
+
+     // here we have two holders for messages one of them
+     // for send messge , other for receiver
     inner class SendViewHolder(itemView:View) : RecyclerView.ViewHolder(itemView) {
         val sendMessage : TextView = itemView.findViewById(R.id.msg_send)
-
 
     }
 
@@ -68,6 +70,7 @@ class MessageAdapter(val context: Context , private val messageList: ArrayList<M
 
     }
 
+    // manage the two holders of sender and receiver messages
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val currentMessage = messageList[position]
         Log.d("TsAG", "onBindViewHolder: ${messageList.size}")

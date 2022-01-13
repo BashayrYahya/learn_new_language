@@ -50,6 +50,8 @@ class ChatFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_chat_list, container, false)
 
+
+        // initializes items
         chatRecyclerView = view.findViewById(R.id.recycler_chat)
         messageBox = view.findViewById(R.id.send_msg_editText)
         sendButton = view.findViewById(R.id.send_image)
@@ -61,10 +63,9 @@ class ChatFragment : Fragment() {
         databaseRef = FirebaseDatabase.getInstance().getReference()
         textName =  view.findViewById(R.id.textNamee)
         receiveUserUid()
-        //logic fo add message ro recycler
 
 
-        //adding data to database
+        //adding data(messages) to database (real time)
         sendButton.setOnClickListener {
             val message = messageBox.text.toString()
             val messageObj = MessageData(message, senderId)
@@ -105,6 +106,7 @@ class ChatFragment : Fragment() {
     }
 
 
+    // get uid of the teacher from recycler to do chat with him
     private fun receiveUserUid() {
 
         val fireStore = FirebaseFirestore.getInstance()
@@ -121,6 +123,8 @@ class ChatFragment : Fragment() {
                         (activity as AppCompatActivity?)!!.supportActionBar!!.setSubtitle(R.id.textNamee)
 
                     }
+
+                // make room to connect receiver with sender
                 //val senderId = FirebaseAuth.getInstance().currentUser?.uid
                 senderRoom = args.uid + senderId
                 receiverRoom = args.uid + senderId

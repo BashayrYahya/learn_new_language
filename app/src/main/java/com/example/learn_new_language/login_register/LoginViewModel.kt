@@ -1,7 +1,5 @@
 package com.example.learn_new_language.login_register
 
-import android.content.Context
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import com.example.learn_new_language.Repository
 
@@ -12,11 +10,10 @@ class LoginViewModel : ViewModel (){
 
     fun checkUserLoginData(
         email:String,
-        password: String,
-        context: Context,
+        password: String
 
     ){
-        return repo.checkUserLoginData(email,password,context)
+        return repo.checkUserLoginData(email,password)
     }
 
 

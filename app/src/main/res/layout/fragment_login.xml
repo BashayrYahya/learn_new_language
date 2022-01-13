@@ -110,7 +110,7 @@
         android:layout_height="48dp"
         android:background="@drawable/edittext_style"
         android:text="@string/login"
-        android:textColor="?attr/colorPrimaryVariant"
+        android:textColor="@color/purple_700"
         android:textSize="14sp"
         android:textStyle="bold"
         app:icon="@drawable/edittext_style"

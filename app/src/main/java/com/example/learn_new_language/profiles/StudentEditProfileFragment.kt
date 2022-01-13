@@ -1,6 +1,7 @@
 package com.example.learn_new_language.profiles
 
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -15,12 +16,11 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.learn_new_language.MainActivity2
 import com.example.learn_new_language.R
+import com.example.learn_new_language.login_register.LoginViewModel
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import java.lang.Exception
@@ -40,6 +40,7 @@ class StudentEditProfileFragment : Fragment() {
     private lateinit var teacherExperience :TextView
     private lateinit var imgUri : Uri
     lateinit var firestore: FirebaseFirestore
+    private val profileViewModel : ProfileViewModel by lazy { ViewModelProvider(this)[ProfileViewModel ::class.java ] }
 
 
 
@@ -84,7 +85,7 @@ class StudentEditProfileFragment : Fragment() {
             val emailEdit = emailEdit.text.toString()
             val teacherExperienceEdit = teacherExperienceEdit.text.toString()
 
-            saveFireStore(studentFullName, phoneNumEdit,emailEdit,teacherExperienceEdit)
+          updateFireStore(studentFullName, phoneNumEdit,emailEdit,teacherExperienceEdit)
 
         }
 
@@ -92,6 +93,7 @@ class StudentEditProfileFragment : Fragment() {
         return view
     }
 
+    // if user chose student radio btn , experience editText will be invisible
     private fun visibilityOfTeacherExperience() {
         teacherExperienceEdit.visibility =
             if (firestore.collection("Users") == firestore.collection("Users")
@@ -111,6 +113,7 @@ class StudentEditProfileFragment : Fragment() {
             }
     }
 
+    // upload photo in a profile img
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_PHOTO && requestCode ==RESULT_OK){
@@ -130,26 +133,7 @@ class StudentEditProfileFragment : Fragment() {
     }
 
 
-    private fun saveFireStore(fullName: String, emailEdit: String, phoneNum:String, teacherExperience:String) {
 
-        val user: MutableMap<String, Any> = HashMap()
-
-        user["fullName"] = fullName
-        user["phone"] = phoneNum
-        user["email"] = emailEdit
-        user["teacherExperience"] = teacherExperience
-
-         FirebaseFirestore.getInstance().collection("Users")
-            .document(Firebase.auth.currentUser?.uid!!).set(user).addOnSuccessListener {
-                 val intent = Intent(context, MainActivity2::class.java)
-                 startActivity(intent)
-             }.addOnFailureListener {
-                 Log.e(TAG, "saveFireStore: error", it)
-             }
-
-
-
-    }
 
 // get information of users from fireStore to edit
 private fun readFireStoreData() {
@@ -166,9 +150,6 @@ private fun readFireStoreData() {
                         "teacherExperience"-> teacherExperienceEdit.setText(it.value.toString())
 
 
-
-
-
                     }
 
                 }
@@ -177,6 +158,31 @@ private fun readFireStoreData() {
 
 
     }
+
+    //  fun to save and update profile in fireStore
+    fun updateFireStore(fullName: String, emailEdit: String, phoneNum:String,
+                        teacherExperience:String) {
+
+        val user: MutableMap<String, Any> = HashMap()
+
+        user["fullName"] = fullName
+        user["phone"] = phoneNum
+        user["email"] = emailEdit
+        user["teacherExperience"] = teacherExperience
+        FirebaseFirestore.getInstance().collection("Users")
+            .document(Firebase.auth.currentUser?.uid!!).set(user).addOnSuccessListener {
+                val intent = Intent(context, MainActivity2::class.java)
+                startActivity(intent)
+            }.addOnFailureListener {
+                Log.e(TAG, "saveFireStore: error", it)
+            }
+
+
+
+
+
+    }
+
 
 
 }

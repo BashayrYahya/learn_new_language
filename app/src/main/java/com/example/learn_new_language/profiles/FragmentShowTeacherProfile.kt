@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 
 import com.example.learn_new_language.R
@@ -21,6 +22,7 @@ class FragmentShowTeacherProfile : Fragment() {
     private lateinit var teacherInfo : TextView
     private lateinit var teacherEmail:TextView
     private lateinit var chatIcon : ImageView
+    private lateinit var profileImage:ImageView
 
 
     private val args:FragmentShowTeacherProfileArgs by navArgs()
@@ -45,15 +47,17 @@ class FragmentShowTeacherProfile : Fragment() {
         teacherInfo= view.findViewById(R.id.teacher_info)
         teacherEmail = view.findViewById(R.id.teacher_email)
         chatIcon = view.findViewById(R.id.chat_icon)
+        profileImage= view.findViewById(R.id.profile_image)
 
 
 
-        chatIcon.setOnClickListener {
-            Log.d("TAG", "onCreateView: $teacherUid")
-            val action = FragmentShowTeacherProfileDirections
-                .actionFragmentShowTeacherProfileToChatFragment(teacherUid)
-            it.findNavController().navigate(action)
-        }
+//        chatIcon.setOnClickListener {
+//            Log.d("TAG", "onCreateView: $teacherUid")
+//            val action = FragmentShowTeacherProfileDirections
+//                .actionFragmentShowTeacherProfileToChatFragment(teacherUid)
+//            findNavController().navigate(action)
+//        }
+
 
 
         return view

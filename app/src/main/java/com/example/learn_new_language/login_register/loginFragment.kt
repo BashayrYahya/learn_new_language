@@ -77,11 +77,11 @@ class LoginFragment : Fragment() {
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
                             Log.d(ContentValues.TAG, "login is successes")
-                            context?.let { it1 ->
-                                repo.checkLoginIfUserTeacherOrStudent(fireAuth.currentUser!!.uid ,
-                                    it1,
-                                    Activity())
-                            } // =it.user.uid
+//                            context?.let { it1 ->
+//                                repo.checkLoginIfUserTeacherOrStudent(fireAuth.currentUser!!.uid ,
+//                                    it1,
+//                                    Activity())
+//                            } // =it.user.uid
                             loginViewModel.checkUserLoginData(email.text.toString(),password.text.toString())
                             repo.addUserToDataBase (email.text.toString(), fireAuth.currentUser?.uid!!)
                             val intent = Intent(context, MainActivity2::class.java)

@@ -1,7 +1,6 @@
 package com.example.learn_new_language.login_register
 
 
-
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -20,13 +19,15 @@ import com.example.learn_new_language.R
 import com.example.learn_new_language.listTeacher.User
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 private const val TAG = "RegisterFragment"
 private const val TAG1 = "RegisterFragment"
 
 class RegisterFragment : Fragment() {
 
-    private val registerViewModel : RegisterViewModel by lazy { ViewModelProvider(this)[RegisterViewModel ::class.java ] }
+    private val registerViewModel: RegisterViewModel by lazy { ViewModelProvider(this)[RegisterViewModel::class.java] }
     private lateinit var fullName: EditText
     private lateinit var email: EditText
     private lateinit var password: EditText
@@ -40,17 +41,16 @@ class RegisterFragment : Fragment() {
     private lateinit var radioGroup: RadioGroup
     lateinit var isTeacher: RadioButton
     lateinit var isStudent: RadioButton
-    lateinit var userClassData :User
+    lateinit var userClassData: User
     private var isAdmin = ""
     private var experience = ""
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fireAuth =  FirebaseAuth.getInstance()
+        fireAuth = FirebaseAuth.getInstance()
         fireStore = FirebaseFirestore.getInstance()
         userClassData = User()
-
-
 
     }
 
@@ -75,35 +75,44 @@ class RegisterFragment : Fragment() {
         experienceInput = view.findViewById(R.id.experienceInput)
 
 
-
-
-
-
-
-
-
-        registerBtn.setOnClickListener{
+        // calling of register functions from view model
+        registerBtn.setOnClickListener {
             experience = experienceEditText.text.toString()
-            registerViewModel.funOfNewRegister(fullName.text.toString(),email.text.toString(),password.text.toString(),phone.text.toString(),isAdmin,experience,requireContext())
-           fireAuth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
+
+            fireAuth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
                 .addOnCompleteListener() { task ->
                     if (task.isSuccessful) {
 
+                        val userCollection = Firebase.firestore.collection("User")
                         val user: FirebaseUser = fireAuth.currentUser!!
+                        userClassData.uid = user.uid
+                        userCollection.document(user.uid)
+                            .set(registerViewModel.funOfNewRegister(
+                                fullName.text.toString(),
+                                email.text.toString(),
+                                password.text.toString(),
+                                phone.text.toString(),
+                                isAdmin,
+                                experience))
 
-                        // if register was successful will move user to main Activity home
+
+
+
+
+
+                        // if register was successful will move
+                        // user to main Activity home
                         Log.d("TAG", "createUserWithEmail:success")
-                        val intent = Intent(context, MainActivity2::class.java)
-                        startActivity(intent)
                         Toast.makeText(context, "account created successfully", Toast.LENGTH_SHORT)
                             .show()
 
-                        userClassData.uid = user.uid
 
                         //save users data on fireBaseStore
                         fireStore.collection("Users").document(user.uid)
                             .set(userClassData).addOnSuccessListener {
                                 Log.e(TAG1, "done")
+                                val intent = Intent(context, MainActivity2::class.java)
+                                startActivity(intent)
 
                             }.addOnFailureListener {
                                 Log.e(TAG1, "something gone wrong", it)
@@ -111,7 +120,7 @@ class RegisterFragment : Fragment() {
 
 
                     } else {
-                        // If register failed, display a message to the user.
+                        // If register failed, show a message to the user.
                         Log.w(TAG1, "createUserWithEmail:failure", task.exception)
                         Toast.makeText(
                             context,
@@ -122,8 +131,8 @@ class RegisterFragment : Fragment() {
                     }
                 }
 
-
         }
+
 
         goToLogin.setOnClickListener {
             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
@@ -132,17 +141,17 @@ class RegisterFragment : Fragment() {
         //manging a group radio and specify teachers and students
         radioGroup.setOnCheckedChangeListener { _, checkedId -> // checkedId is the RadioButton selected
 
-            when(checkedId){
-                isTeacher.id ->{
+            when (checkedId) {
+                isTeacher.id -> {
                     Log.d(TAG, "onCreateView: isAdmin 1")
                     isAdmin = "1"
                 }
 
 
-                isStudent.id ->{
+                isStudent.id -> {
                     isAdmin = "0"
-
-                    Log.d(TAG, "onCreateView: isAdmin 0")}
+                    Log.d(TAG, "onCreateView: isAdmin 0")
+                }
             }
 
             experienceInput.visibility = if (checkedId == isTeacher.id) {
@@ -157,17 +166,6 @@ class RegisterFragment : Fragment() {
         return view
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

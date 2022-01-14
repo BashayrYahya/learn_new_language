@@ -8,7 +8,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-import coil.load
 import com.example.learn_new_language.listTeacher.User
 import com.example.learn_new_language.login_register.RegisterFragment
 import com.google.firebase.auth.FirebaseAuth
@@ -17,7 +16,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.tasks.await
 
 const val REPOSITORY_TAG = "REPOSITORY_TAG"
@@ -73,14 +71,14 @@ class Repository  {
     }
 
 
-    fun getPhotoFromFirebaseStorage (image : CircleImageView, userUri: String?= auth.currentUser?.uid){
-         val imageUri = FirebaseStorage.getInstance().getReference("/photos/ $userUri")
-             .downloadUrl
-        imageUri.addOnSuccessListener {
-            image.load(it)
-        }
-
-    }
+//    fun getPhotoFromFirebaseStorage (image : CircleImageView, userUri: String?= auth.currentUser?.uid){
+//         val imageUri = FirebaseStorage.getInstance().getReference("/photos/ $userUri")
+//             .downloadUrl
+//        imageUri.addOnSuccessListener {
+//            image.load(it)
+//        }
+//
+//    }
 
     // checked if the all editText is valid
      fun validationOfLogin(email: String, password: String): Boolean {
@@ -98,29 +96,29 @@ class Repository  {
 
     }
 
-     fun checkLoginIfUserTeacherOrStudent(uid: String, context: Context, activity: Activity) {
-        val df: DocumentReference =
-            fireStore.collection("Users")
-                .document(uid)
-
-        //  if the user is Student  intent him to fragments
-        df.get().addOnSuccessListener { documentSnapshot ->
-            if (documentSnapshot.getString("isAdmen") != "1") {
-
-                val intent = Intent(context, MainActivity2::class.java)
-                activity.startActivity(intent)
-
-
-
-                // check if the user is teacher
-            } else if (documentSnapshot.getString("isAdmen") != "0") {
-                val intent = Intent(context, MainActivity2::class.java)
-               activity.startActivity(intent)
-
-
-            }
-        }
-    }
+//     fun checkLoginIfUserTeacherOrStudent(uid: String, context: Context, activity: Activity) {
+//        val df: DocumentReference =
+//            fireStore.collection("Users")
+//                .document(uid)
+//
+//        //  if the user is Student  intent him to fragments
+//        df.get().addOnSuccessListener { documentSnapshot ->
+//            if (documentSnapshot.getString("isAdmen") != "1") {
+//
+//                val intent = Intent(context, MainActivity2::class.java)
+//                activity.startActivity(intent)
+//
+//
+//
+//                // check if the user is teacher
+//            } else if (documentSnapshot.getString("isAdmen") != "0") {
+//                val intent = Intent(context, MainActivity2::class.java)
+//               activity.startActivity(intent)
+//
+//
+//            }
+//        }
+//    }
 
 
      fun  addUserToDataBase (email: String, uid : String){
@@ -134,27 +132,22 @@ class Repository  {
     }
 
 
+    //  proses of new registration users
      fun funOfNewRegister(fullName: String, email: String, password: String,
-                          phone: String, isAdmin:String, experince:String, context: Context )
-        {
+                          phone: String, isAdmin:String, experience:String ) {
 
          val userClassData = User()
-
-
-
-
 
         if (checkValidationOfRegister(fullName, email, password, phone)) { // new register
             userClassData.fullName =fullName
             userClassData.email = email
             userClassData.phone = phone
             userClassData.isAdmin = isAdmin
-            userClassData.teacherExperience = experince
+            userClassData.teacherExperience = experience
 
         }
 
-
-    }
+     }
 
 
      private fun checkValidationOfRegister(
@@ -163,7 +156,7 @@ class Repository  {
         valid = !(fullName.isEmpty() || (email.isEmpty())
                 || (password.isEmpty()) || (phone.isEmpty()))
         return valid
-    }
+     }
 
 
 

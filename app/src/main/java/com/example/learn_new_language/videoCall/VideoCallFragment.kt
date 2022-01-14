@@ -39,6 +39,20 @@ class VideoCallFragment : Fragment() {
             requireContext(),
             binding.localVideoViewContainer, binding.remoteVideoViewContainer)
 
+        binding.btnMute.setOnClickListener {
+            viewModel.onLocalAudioMuteClicked(it,true,binding.btnMute)
+        }
+        binding.btnSwitchCamera.setOnClickListener {
+            viewModel.onSwitchCameraClicked(it)
+        }
+//        binding.btnCall.setOnClickListener {
+//            viewModel.endCall()
+//        }
+//        binding.remoteVideoViewContainer.setOnClickListener {
+//            viewModel.()
+//        }
+
+
         return binding.root
     }
 

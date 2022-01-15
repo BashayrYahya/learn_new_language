@@ -33,6 +33,7 @@ class VideoCallFragment : Fragment() {
     ): View {
         binding = VideoCallFragmentBinding.inflate(layoutInflater)
 
+
         makeVideoCall()
 
         viewModel.initializeAndJoinChannel(
@@ -46,10 +47,10 @@ class VideoCallFragment : Fragment() {
             viewModel.onSwitchCameraClicked(it)
         }
 //        binding.btnCall.setOnClickListener {
-//            viewModel.endCall()
+//            viewModel.endCall(mLocalView, mLocalContainer, mRemoteView, mRemoteContainer)
 //        }
 //        binding.remoteVideoViewContainer.setOnClickListener {
-//            viewModel.()
+//            viewModel.onRemoteUserVideoMuted(uid,muted,container)
 //        }
 
 

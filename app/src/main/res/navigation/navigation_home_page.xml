@@ -5,17 +5,6 @@
     android:id="@+id/navigation_home_page"
     app:startDestination="@id/listTeacherFragment">
     <fragment
-        android:id="@+id/settingFragment"
-        android:name="com.example.learn_new_language.chat.ChatFragment"
-        android:label="ChatFragment" >
-        <argument
-            android:name="uid"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_chatFragment_to_fragmentShowTeacherProfile"
-            app:destination="@id/fragmentShowTeacherProfile" />
-    </fragment>
-    <fragment
         android:id="@+id/listTeacherFragment"
         android:name="com.example.learn_new_language.listTeacher.ListTeacherFragment"
         android:label="fragment_list_teacher_list"
@@ -24,10 +13,7 @@
             android:id="@+id/action_listTeacherFragment_to_fragmentShowTeacherProfile"
             app:destination="@id/fragmentShowTeacherProfile" />
     </fragment>
-    <fragment
-        android:id="@+id/calenderFragment"
-        android:name="com.example.learn_new_language.calender.CalenderFragment"
-        android:label="CalenderFragment" />
+
     <fragment
         android:id="@+id/student_edit_profile_fragment"
         android:name="com.example.learn_new_language.profiles.StudentEditProfileFragment"
@@ -43,8 +29,11 @@
             android:id="@+id/action_fragmentShowTeacherProfile_to_listTeacherFragment"
             app:destination="@id/listTeacherFragment" />
         <action
-            android:id="@+id/action_fragmentShowTeacherProfile_to_chatFragment"
-            app:destination="@id/settingFragment" />
+            android:id="@+id/action_fragmentShowTeacherProfile_to_videoCallFragment"
+            app:destination="@id/videoCallFragment" />
+        <action
+            android:id="@+id/action_fragmentShowTeacherProfile_to_chatFragment2"
+            app:destination="@id/chatFragment" />
     </fragment>
     <fragment
         android:id="@+id/youtubeFragment"
@@ -77,5 +66,24 @@
         <action
             android:id="@+id/action_loginFragment2_to_settingFragment"
             app:destination="@id/settingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/videoCallFragment"
+        android:name="com.example.learn_new_language.videoCall.VideoCallFragment"
+        android:label="VideoCallFragment" >
+        <action
+            android:id="@+id/action_videoCallFragment_to_fragmentShowTeacherProfile"
+            app:destination="@id/fragmentShowTeacherProfile" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.learn_new_language.chat.ChatFragment"
+        android:label="ChatFragment" >
+        <action
+            android:id="@+id/action_chatFragment_to_fragmentShowTeacherProfile"
+            app:destination="@id/fragmentShowTeacherProfile" />
+        <argument
+            android:name="uid"
+            app:argType="string" />
     </fragment>
 </navigation>

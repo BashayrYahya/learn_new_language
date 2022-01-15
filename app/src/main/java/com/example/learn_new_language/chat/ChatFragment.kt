@@ -35,8 +35,8 @@ class ChatFragment : Fragment() {
     lateinit var messageAdapter: MessageAdapter
     lateinit var databaseRef : DatabaseReference
     private lateinit var fireAuth: FirebaseAuth
-    var receiverRoom : String? = null
-    var senderRoom :String = ""
+    private var receiverRoom : String? = null
+    private var senderRoom :String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +60,7 @@ class ChatFragment : Fragment() {
         messageAdapter = MessageAdapter(requireContext() ,messageArrayList )
         chatRecyclerView.layoutManager = LinearLayoutManager(context)
         chatRecyclerView.adapter = messageAdapter
-        databaseRef = FirebaseDatabase.getInstance().getReference()
+        FirebaseDatabase.getInstance().getReference().also { databaseRef = it }
         textName =  view.findViewById(R.id.textNamee)
         receiveUserUid()
 

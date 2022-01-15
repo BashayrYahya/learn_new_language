@@ -1,6 +1,7 @@
 package com.example.learn_new_language.profiles
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 
 import com.example.learn_new_language.R
@@ -25,6 +27,7 @@ class FragmentShowTeacherProfile : Fragment() {
     private lateinit var profileImage: ImageView
     lateinit var ratingbarTeacher: RatingBar
     lateinit var rateTv : TextView
+    lateinit var videoCallImg : ImageView
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val profileViewModel: ProfileViewModel by lazy { ViewModelProvider(this)[ProfileViewModel::class.java] }
 
@@ -52,6 +55,7 @@ class FragmentShowTeacherProfile : Fragment() {
         profileImage = view.findViewById(R.id.profile_image)
         ratingbarTeacher = view.findViewById(R.id.ratingbar_teacher)
         rateTv = view.findViewById(R.id.rateTv)
+        videoCallImg = view.findViewById(R.id.videocall_icon)
 
         ratingbarTeacher.setOnRatingBarChangeListener { _, rating, _ ->
             val ratingTeachers =
@@ -74,12 +78,17 @@ class FragmentShowTeacherProfile : Fragment() {
         }
 
 
-//        chatIcon.setOnClickListener {
-//            Log.d("TAG", "onCreateView: $teacherUid")
-//            val action = FragmentShowTeacherProfileDirections
-//                .actionFragmentShowTeacherProfileToChatFragment(teacherUid)
-//            findNavController().navigate(action)
-//        }
+        chatIcon.setOnClickListener {
+            Log.d("TAG", "onCreateView: $teacherUid")
+            val action = FragmentShowTeacherProfileDirections
+                .actionFragmentShowTeacherProfileToChatFragment2(teacherUid)
+            findNavController().navigate(action)
+        }
+
+        videoCallImg.setOnClickListener {
+            val action = FragmentShowTeacherProfileDirections.actionFragmentShowTeacherProfileToVideoCallFragment()
+            findNavController().navigate(action)
+        }
 
 
             return view
@@ -91,7 +100,7 @@ class FragmentShowTeacherProfile : Fragment() {
         private fun readFireData() {
             val fireStore = FirebaseFirestore.getInstance()
             fireStore.collection("Users") // .whereEqualTo("fullName",Firebase.auth.currentUser.uid)
-                .whereEqualTo("uid", args.email)
+                .whereEqualTo("email", args.email)
                 .addSnapshotListener { value, error ->
                     // Log.e("fromProfile" , "the value is ${value?.data}")
                     val result = value?.toObjects(User::class.java)?.get(0)

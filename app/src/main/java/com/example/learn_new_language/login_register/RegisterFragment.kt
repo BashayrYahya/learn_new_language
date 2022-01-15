@@ -16,11 +16,10 @@ import android.widget.RadioGroup
 import androidx.lifecycle.ViewModelProvider
 import com.example.learn_new_language.MainActivity2
 import com.example.learn_new_language.R
+import com.example.learn_new_language.Repository
 import com.example.learn_new_language.listTeacher.User
+import com.example.learn_new_language.videoCall.uid
 import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 private const val TAG = "RegisterFragment"
 private const val TAG1 = "RegisterFragment"
@@ -77,61 +76,45 @@ class RegisterFragment : Fragment() {
 
         // calling of register functions from view model
         registerBtn.setOnClickListener {
-            experience = experienceEditText.text.toString()
 
-            fireAuth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
-                .addOnCompleteListener() { task ->
-                    if (task.isSuccessful) {
-
-                        val userCollection = Firebase.firestore.collection("User")
-                        val user: FirebaseUser = fireAuth.currentUser!!
-                        userClassData.uid = user.uid
-                        userCollection.document(user.uid)
-                            .set(registerViewModel.funOfNewRegister(
-                                fullName.text.toString(),
-                                email.text.toString(),
-                                password.text.toString(),
-                                phone.text.toString(),
-                                isAdmin,
-                                experience))
+            if (fullName.text.isEmpty() || password.text.isEmpty() ||
+                email.text.isEmpty() || phone.text.isEmpty()
+            ) {
+                Toast.makeText(requireContext(), "You must fill all fields", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
 
 
+                 userClassData = User(
+                    fullName.text.toString(),
+                    experience,
+                    phone.text.toString(),
+                    email.text.toString(),
+                    uid.toString(),
+                    isAdmin
+                )
 
-
-
-
-                        // if register was successful will move
-                        // user to main Activity home
-                        Log.d("TAG", "createUserWithEmail:success")
-                        Toast.makeText(context, "account created successfully", Toast.LENGTH_SHORT)
-                            .show()
-
-
-                        //save users data on fireBaseStore
-                        fireStore.collection("Users").document(user.uid)
-                            .set(userClassData).addOnSuccessListener {
-                                Log.e(TAG1, "done")
-                                val intent = Intent(context, MainActivity2::class.java)
-                                startActivity(intent)
-
-                            }.addOnFailureListener {
-                                Log.e(TAG1, "something gone wrong", it)
-                            }
-
-
-                    } else {
-                        // If register failed, show a message to the user.
-                        Log.w(TAG1, "createUserWithEmail:failure", task.exception)
-                        Toast.makeText(
-                            context,
-                            "Authentication failed ,${task.exception}.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                    }
+                registerViewModel.funOfNewRegister(
+                    fullName.text.toString(),
+                    email.text.toString(),
+                    password.text.toString(),
+                    phone.text.toString(),
+                    isAdmin,
+                    experienceEditText.text.toString(),
+                    uid.toString(),
+                    requireContext() )
+                if (fireAuth.currentUser != null) {
+                    val intent = Intent(context, MainActivity2::class.java)
+                    startActivity(intent)
                 }
 
+
+
+            }
+
         }
+
+
 
 
         goToLogin.setOnClickListener {

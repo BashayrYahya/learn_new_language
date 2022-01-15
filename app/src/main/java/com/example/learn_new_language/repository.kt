@@ -1,19 +1,18 @@
 package com.example.learn_new_language
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-
 import com.example.learn_new_language.listTeacher.User
 import com.example.learn_new_language.login_register.RegisterFragment
+import com.example.learn_new_language.profiles.RatingDataClass
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
@@ -83,18 +82,16 @@ class Repository  {
     // checked if the all editText is valid
      fun validationOfLogin(email: String, password: String): Boolean {
         valid = !(email.isEmpty() || password.isEmpty())
-      //  email.error = "you should fill your email "
-//            password.error = "you should fill your password"
         return valid
     }
 
-    fun checkUserLoginData(email: String, password: String) {
-
-        val userClassData = User()
-        userClassData.email = email
-
-
-    }
+//    fun checkUserLoginData(email: String, password: String) {
+//
+//        val userClassData = User()
+//        userClassData.email = email
+//
+//
+//    }
 
 //     fun checkLoginIfUserTeacherOrStudent(uid: String, context: Context, activity: Activity) {
 //        val df: DocumentReference =
@@ -134,9 +131,11 @@ class Repository  {
 
     //  proses of new registration users
      fun funOfNewRegister(fullName: String, email: String, password: String,
-                          phone: String, isAdmin:String, experience:String ) {
+                          phone: String, isAdmin:String, experience:String ,uid: String
+                          , context:Context) {
 
          val userClassData = User()
+
 
         if (checkValidationOfRegister(fullName, email, password, phone)) { // new register
             userClassData.fullName =fullName
@@ -144,10 +143,48 @@ class Repository  {
             userClassData.phone = phone
             userClassData.isAdmin = isAdmin
             userClassData.teacherExperience = experience
+            userClassData.uid =uid
+
 
         }
 
-     }
+        fireAuth.createUserWithEmailAndPassword(email, password )
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    userClassData.uid = fireAuth.currentUser!!.uid
+                    Log.d("TAG", "createUserWithEmail:success")
+                    Toast.makeText(context, "account created successfully", Toast.LENGTH_SHORT)
+                        .show()
+                    //save users data on fireBaseStore
+
+                    fireStore.collection("Users")
+                        .document(auth.currentUser?.uid!!)
+                        .set(userClassData)
+                        .addOnSuccessListener {
+                            Log.e("TAG1", "add user in fireStore successfully")
+
+
+                        }.addOnFailureListener {
+                            Log.e("TAG1", " Error while adding user in fireStore", it)
+                        }
+
+
+                } else {
+                    // If register failed, show a message to the user.
+                    Log.w("TAG1", "createUserWithEmail:failure", task.exception)
+                    Toast.makeText(
+                        context,
+                        "Authentication failed ,${task.exception}.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                }
+            }
+
+
+
+
+    }
 
 
      private fun checkValidationOfRegister(
@@ -159,6 +196,22 @@ class Repository  {
      }
 
 
+
+
+    suspend fun addRating (teacherId:String, ratingTeacher: RatingDataClass, studentId:String ){
+      val teacher = fireStore.document(teacherId).get().await().toObject(User::class.java)
+        val newRating :MutableList<RatingDataClass> = teacher?.rating!!.filter {
+            it.userId != studentId
+        }.toMutableList()
+         if (teacher.rating == newRating){
+             fireStore.collection("User").document(teacherId).update("rating",FieldValue.arrayUnion(ratingTeacher))
+         }else{
+             newRating.add(ratingTeacher)
+             fireStore.document(teacherId).update("rating",newRating)
+         }
+
+
+    }
 
 
 

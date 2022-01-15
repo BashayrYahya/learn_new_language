@@ -3,6 +3,7 @@ package com.example.learn_new_language.listTeacher
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.RatingBar
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,7 @@ class ListTeacherFragment : Fragment() {
     lateinit var firestore: FirebaseFirestore
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -43,6 +45,7 @@ class ListTeacherFragment : Fragment() {
         filterUserArrayList = ArrayList()
         teacherAdapter = TeacherAdapter(userArrayList)
         teacherRecyclerView.adapter = teacherAdapter
+
 
         //recyclerView.adapter = filterTeacherAdapter
         teacherRecyclerView.setOnClickListener { teacherRecyclerView.startLayoutAnimation() }
@@ -73,6 +76,7 @@ class ListTeacherFragment : Fragment() {
                 return false
             }
         })
+
 
 
         eventChangeListener()
@@ -118,6 +122,8 @@ class ListTeacherFragment : Fragment() {
             })
 
     }
+
+
 
 
 }

@@ -24,8 +24,8 @@
     <string name="name_hint">Name</string>
     <string name="communicate">communicate</string>
     <string name="notification">notification</string>
-    <string name="share">share</string>
-    <string name="logout">logout</string>
+    <string name="share">      share</string>
+    <string name="logout">     logout</string>
     <string name="setting">setting</string>
     <string name="profile">profile</string>
     <string name="open_menu">Open</string>
@@ -53,8 +53,8 @@
     <string name="text_send_message">text send message</string>
     <string name="nameSender">nameSender</string>
     <string name="your_profile">Your profile</string>
-    <string name="app_language">change language</string>
-    <string name="delete_account">delete account</string>
+    <string name="app_language">      change language</string>
+    <string name="delete_account">      delete account</string>
     <string name="list_teacher">list teacher</string>
     <string name="video">videos</string>
 

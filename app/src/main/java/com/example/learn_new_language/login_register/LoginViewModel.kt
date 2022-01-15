@@ -8,13 +8,17 @@ class LoginViewModel : ViewModel (){
 
 
 
-    fun checkUserLoginData(
-        email:String,
-        password: String
-
-    ){
-        return repo.checkUserLoginData(email,password)
+    fun validationOfLogin(email: String, password: String){
+        repo.validationOfLogin(email, password)
     }
+
+//    fun checkUserLoginData(
+//        email:String,
+//        password: String
+//
+//    ){
+//        return repo.checkUserLoginData(email,password)
+//    }
 
 
 

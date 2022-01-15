@@ -23,7 +23,7 @@ const val uid =0
 
 class VideoCallRepository {
 
-    var mRtcEngine: RtcEngine? = null
+    private var mRtcEngine: RtcEngine? = null
 
     private fun showButtons(show: Boolean, mMuteBtn: ImageView?, mSwitchCameraBtn: ImageView?) {
         val visibility = if (show) View.VISIBLE else View.GONE

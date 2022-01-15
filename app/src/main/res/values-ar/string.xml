@@ -23,8 +23,8 @@
     <string name = "phone_number_hint"> رقم الهاتف </string>
     <string name = "email_hint"> البريد الإلكتروني </string>
     <string name = "name_hint"> الاسم </string>
-    <string name = "share"> مشاركة </string>
-    <string name = "logout"> تسجيل الخروج </string>
+    <string name = "share"> مشاركة      </string>
+    <string name = "logout"> تسجيل الخروج     </string>
     <string name = "setting"> الإعدادات </string>
     <string name = "profile"> الملف الشخصي </string>
     <string name = "open_menu"> فتح </string>
@@ -50,12 +50,12 @@
     <string name = "search"> بحث </string>
     <string name = "type_a_message"> اكتب رسالة </string>
     <string name = "text_send_message"> إرسال رسالة نصية </string>
-    <string name = "nameSender"> nameSender </string>
+    <string name = "nameSender"> اسم المرسل </string>
     <string name = "your_profile"> ملفك الشخصي </string>
     <string name="communicate">تواصل</string>
     <string name="notification">الاشعارات</string>
-    <string name="app_language">تغيير اللغة </string>
-    <string name="delete_account">حذف الحساب</string>
+    <string name="app_language">تغيير اللغة       </string>
+    <string name="delete_account">حذف الحساب      </string>
     <string name="list_teacher">المعلمين</string>
     <string name="video">الفديوهات</string>
 

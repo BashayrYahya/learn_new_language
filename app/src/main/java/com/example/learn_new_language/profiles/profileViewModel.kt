@@ -17,15 +17,15 @@ class ProfileViewModel : ViewModel () {
         }
     }
 
-      fun addRating (teacherId:String, ratingTeacher: RatingDataClass, studentId:String ) {
-         viewModelScope.launch {
-             repo.addRating(teacherId, ratingTeacher, studentId)
-         }
-     }
+//      suspend fun addRating (teacherId:String, ratingTeacher: RatingDataClass, studentId:String ) {
+//
+//             repo.addRating(teacherId, ratingTeacher, studentId)
+//
+//     }
 
-    fun getPhotoFromStorage(): LiveData<Uri> {
-            return repo.getPhotoFromStorage()
-    }
+//    fun getPhotoFromStorage(): LiveData<Uri> {
+//            return repo.getPhotoFromStorage()
+//    }
 
 
 }

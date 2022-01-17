@@ -26,7 +26,7 @@ class VideoCallFragment : Fragment() {
 
     private lateinit var binding: VideoCallFragmentBinding
 
-    private val viewModel: VideoCallViewModel by lazy { ViewModelProvider(this)[VideoCallViewModel::class.java] }
+    private val viewModelCallCam: VideoCallViewModel by lazy { ViewModelProvider(this)[VideoCallViewModel::class.java] }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -36,16 +36,21 @@ class VideoCallFragment : Fragment() {
 
         makeVideoCall()
 
-        viewModel.initializeAndJoinChannel(
+        viewModelCallCam.initializeAndJoinChannel(
             requireContext(),
-            binding.localVideoViewContainer, binding.remoteVideoViewContainer)
+            binding.localVideoViewContainer, binding.remoteVideoViewContainer
+        )
 
-        binding.btnMute.setOnClickListener {
-            viewModel.onLocalAudioMuteClicked(it,true,binding.btnMute)
+        binding.btnCall.setOnClickListener {
+            //videoCallViewModel.endCall(binding.localVideoViewContainer, mLocalView = binding., mRemoteContainer = binding.remoteVideoViewContainer, mRemoteView = binding.videoCallRL)
         }
         binding.btnSwitchCamera.setOnClickListener {
-            viewModel.onSwitchCameraClicked(it)
+            viewModelCallCam.onSwitchCameraClicked(it)
         }
+        binding.btnMute.setOnClickListener {
+            viewModelCallCam.onLocalAudioMuteClicked(it,true,binding.btnMute)
+        }
+
 //        binding.btnCall.setOnClickListener {
 //            viewModel.endCall(mLocalView, mLocalContainer, mRemoteView, mRemoteContainer)
 //        }
@@ -56,24 +61,31 @@ class VideoCallFragment : Fragment() {
 
         return binding.root
     }
-
     private fun makeVideoCall() {
-        checkForPermission(CAMERA,"camera",PERMISSION_REQ_ID_CAMERA)
-        checkForPermission(RECORD_AUDIO,"audio", PERMISSION_REQ_ID_RECORD_AUDIO)
-        viewModel.initializeAndJoinChannel(
+        checkForPermission(CAMERA, "camera", PERMISSION_REQ_ID_CAMERA)
+        checkForPermission(RECORD_AUDIO, "audio", PERMISSION_REQ_ID_RECORD_AUDIO)
+        viewModelCallCam.initializeAndJoinChannel(
             requireContext(),
-            binding.localVideoViewContainer, binding.remoteVideoViewContainer)
+            binding.localVideoViewContainer, binding.remoteVideoViewContainer
+        )
     }
 
-    private fun checkForPermission(permission: String ,name:String ,requestCode:Int){
-       when {
-           ContextCompat.checkSelfPermission(requireContext(),permission) == PackageManager.PERMISSION_GRANTED -> {
-               Log.d("permission","$name permission granted")
-           }
-           shouldShowRequestPermissionRationale(permission) -> showDialog(permission,name ,requestCode)
+    private fun checkForPermission(permission: String, name: String, requestCode: Int) {
+        when {
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                permission
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                Log.d("permission", "$name permission granted")
+            }
+            shouldShowRequestPermissionRationale(permission) -> showDialog(
+                permission,
+                name,
+                requestCode
+            )
 
-           else -> requestPermissions(requireActivity(), arrayOf(permission),requestCode)
-       }
+            else -> requestPermissions(requireActivity(), arrayOf(permission), requestCode)
+        }
     }
 
     private fun showDialog(permission: String, name: String, requestCode: Int) {
@@ -82,11 +94,11 @@ class VideoCallFragment : Fragment() {
         builder.apply {
             setMessage(" permission to access your $name is required to use this app")
             setTitle("Permission required ")
-            setPositiveButton("Ok"){ dialog ,which ->
-                requestPermissions(requireActivity(),arrayOf(permission),requestCode)
+            setPositiveButton("Ok") { _, _ ->
+                requestPermissions(requireActivity(), arrayOf(permission), requestCode)
             }
         }
-        val dialog :AlertDialog =builder.create()
+        val dialog: AlertDialog = builder.create()
         dialog.show()
     }
 
@@ -95,18 +107,18 @@ class VideoCallFragment : Fragment() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        fun innerCheck(name: String){
-            if (grantResults.isEmpty() || grantResults [0] != PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(requireContext(),"$name permission refused ",Toast.LENGTH_LONG).show()
-            }
-            else {
+        fun innerCheck(name: String) {
+            if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(requireContext(), "$name permission refused ", Toast.LENGTH_LONG)
+                    .show()
+            } else {
                 Toast.makeText(requireContext(), "$name permission granted ", Toast.LENGTH_LONG)
                     .show()
             }
         }
-        when(requestCode){
+        when (requestCode) {
             PERMISSION_REQ_ID_CAMERA -> innerCheck("camera")
-            PERMISSION_REQ_ID_RECORD_AUDIO ->innerCheck("audio")
+            PERMISSION_REQ_ID_RECORD_AUDIO -> innerCheck("audio")
         }
     }
 

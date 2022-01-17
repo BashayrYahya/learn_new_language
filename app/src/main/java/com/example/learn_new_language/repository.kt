@@ -8,7 +8,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.learn_new_language.listTeacher.User
 import com.example.learn_new_language.login_register.RegisterFragment
+import com.example.learn_new_language.profiles.FragmentShowTeacherProfile
 import com.example.learn_new_language.profiles.RatingDataClass
+import com.example.learn_new_language.videoCall.uid
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -19,39 +21,37 @@ import kotlinx.coroutines.tasks.await
 
 const val REPOSITORY_TAG = "REPOSITORY_TAG"
 
-class Repository  {
+class Repository {
 
 
-
-    companion object{
-       fun getInstant () : Repository = Repository()
-        private val fireStore = FirebaseFirestore.getInstance()
-        private val auth :FirebaseAuth = FirebaseAuth.getInstance()
+    companion object {
+        fun getInstant(): Repository = Repository()
+        val fireStore = FirebaseFirestore.getInstance()
+        private val auth: FirebaseAuth = FirebaseAuth.getInstance()
         private val currentUser = auth.currentUser?.uid
         private var valid: Boolean = true
         val fireAuth = FirebaseAuth.getInstance()
-        lateinit var    databaseRef :DatabaseReference
-        val registerFragment = RegisterFragment ()
-
-
-
-
+        lateinit var databaseRef: DatabaseReference
+        val registerFragment = RegisterFragment()
+        val showTeacherProfile: FragmentShowTeacherProfile = FragmentShowTeacherProfile()
+        var rating = ""
+        var teacherUid = ""
 
 
     }
 
 
-    suspend fun uploadPhotoToFirebaseStorage (imgURI: Uri){
+    suspend fun uploadPhotoToFirebaseStorage(imgURI: Uri) {
         val imageRef = FirebaseStorage.getInstance().getReference("/photos/$currentUser")
 
-        val o =imageRef.putFile(imgURI).await()
+        val o = imageRef.putFile(imgURI).await()
 
-        if (o.task.isComplete){
-            val j= o.storage.downloadUrl.await()
+        if (o.task.isComplete) {
+            val j = o.storage.downloadUrl.await()
 
-                fireStore.collection("users")
-                    .document(auth.currentUser!!.uid)
-                    .update("profileImage", j.toString())
+            fireStore.collection("users")
+                .document(auth.currentUser!!.uid)
+                .update("profileImage", j.toString())
 
 
         }
@@ -63,8 +63,8 @@ class Repository  {
         val uriLiveData: MutableLiveData<Uri> = MutableLiveData()
         imageUrl.addOnSuccessListener {
             uriLiveData.value = it
-        }.addOnFailureListener{
-            Log.e(REPOSITORY_TAG," fail",it)
+        }.addOnFailureListener {
+            Log.e(REPOSITORY_TAG, " fail", it)
         }
         return uriLiveData
     }
@@ -80,7 +80,7 @@ class Repository  {
 //    }
 
     // checked if the all editText is valid
-     fun validationOfLogin(email: String, password: String): Boolean {
+    fun validationOfLogin(email: String, password: String): Boolean {
         valid = !(email.isEmpty() || password.isEmpty())
         return valid
     }
@@ -118,37 +118,38 @@ class Repository  {
 //    }
 
 
-     fun  addUserToDataBase (email: String, uid : String){
+    fun addUserToDataBase(email: String, uid: String) {
         val userDataClass = User()
         userDataClass.uid = uid
         userDataClass.email = email
         databaseRef = FirebaseDatabase.getInstance().getReference()
         databaseRef.child("Users").child(uid)
-            .setValue(User(email,uid))
+            .setValue(User(email, uid))
 
     }
 
 
     //  proses of new registration users
-     fun funOfNewRegister(fullName: String, email: String, password: String,
-                          phone: String, isAdmin:String, experience:String ,uid: String
-                          , context:Context) {
+    fun funOfNewRegister(
+        fullName: String, email: String, password: String,
+        phone: String, isAdmin: String, experience: String, uid: String, context: Context
+    ) {
 
-         val userClassData = User()
+        val userClassData = User()
 
 
         if (checkValidationOfRegister(fullName, email, password, phone)) { // new register
-            userClassData.fullName =fullName
+            userClassData.fullName = fullName
             userClassData.email = email
             userClassData.phone = phone
             userClassData.isAdmin = isAdmin
             userClassData.teacherExperience = experience
-            userClassData.uid =uid
+            userClassData.uid = uid
 
 
         }
 
-        fireAuth.createUserWithEmailAndPassword(email, password )
+        fireAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     userClassData.uid = fireAuth.currentUser!!.uid
@@ -182,40 +183,24 @@ class Repository  {
             }
 
 
-
-
     }
 
 
-     private fun checkValidationOfRegister(
+    private fun checkValidationOfRegister(
         fullName: String, email: String, password: String, phone: String
     ): Boolean {
         valid = !(fullName.isEmpty() || (email.isEmpty())
                 || (password.isEmpty()) || (phone.isEmpty()))
         return valid
-     }
-
-
-
-
-    suspend fun addRating (teacherId:String, ratingTeacher: RatingDataClass, studentId:String ){
-      val teacher = fireStore.document(teacherId).get().await().toObject(User::class.java)
-        val newRating :MutableList<RatingDataClass> = teacher?.rating!!.filter {
-            it.userId != studentId
-        }.toMutableList()
-         if (teacher.rating == newRating){
-             fireStore.collection("User").document(teacherId).update("rating",FieldValue.arrayUnion(ratingTeacher))
-         }else{
-             newRating.add(ratingTeacher)
-             fireStore.document(teacherId).update("rating",newRating)
-         }
-
-
     }
 
 
 
 }
+
+
+
+
 
 //            fullName.error = "you should fill your name"
 //            email.error = "you should fill your email"

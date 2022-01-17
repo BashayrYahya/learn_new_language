@@ -34,9 +34,6 @@ class VideoCallViewModel(application: Application) : AndroidViewModel(applicatio
         videoRepo.onSwitchCameraClicked(view)
     }
 
-
-
-
     fun onCallClicked(
         view: View?,
         mCallBtn: ImageView?,

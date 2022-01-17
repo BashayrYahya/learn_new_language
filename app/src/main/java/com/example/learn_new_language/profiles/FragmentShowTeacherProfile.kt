@@ -14,8 +14,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 
 import com.example.learn_new_language.R
+import com.example.learn_new_language.Repository
+import com.example.learn_new_language.Repository.Companion.fireStore
+import com.example.learn_new_language.Repository.Companion.rating
+import com.example.learn_new_language.Repository.Companion.showTeacherProfile
 import com.example.learn_new_language.listTeacher.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
 class FragmentShowTeacherProfile : Fragment() {
@@ -26,15 +31,15 @@ class FragmentShowTeacherProfile : Fragment() {
     private lateinit var chatIcon: ImageView
     private lateinit var profileImage: ImageView
     lateinit var ratingbarTeacher: RatingBar
-    lateinit var rateTv : TextView
-    lateinit var videoCallImg : ImageView
+    lateinit var rateTv: TextView
+    lateinit var videoCallImg: ImageView
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val profileViewModel: ProfileViewModel by lazy { ViewModelProvider(this)[ProfileViewModel::class.java] }
 
-    private val args: FragmentShowTeacherProfileArgs by navArgs()
+    val args: FragmentShowTeacherProfileArgs by navArgs()
 
-    private var teacherUid = ""
-    private var ratingAverage =0f
+    var teacherUid = ""
+    private var ratingAverage = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,15 +64,16 @@ class FragmentShowTeacherProfile : Fragment() {
 
         ratingbarTeacher.setOnRatingBarChangeListener { _, rating, _ ->
             val ratingTeachers =
-                RatingDataClass(userId = rating.toString(), userRating = auth.currentUser!!.uid)
-            profileViewModel.addRating(
-                teacherUid,
+                RatingDataClass(userRating = rating.toString(), userId = auth.currentUser!!.uid )
+            addRating(
+                teacherId = teacherUid,
                 ratingTeachers,
                 studentId = auth.currentUser!!.uid
             )
 
 
-            val user: User = User()
+            // counting rating
+            val user = User()
             user.rating.forEach {
                 ratingAverage += it.userRating.toFloat()
             }
@@ -86,34 +92,62 @@ class FragmentShowTeacherProfile : Fragment() {
         }
 
         videoCallImg.setOnClickListener {
-            val action = FragmentShowTeacherProfileDirections.actionFragmentShowTeacherProfileToVideoCallFragment()
+            val action =
+                FragmentShowTeacherProfileDirections.actionFragmentShowTeacherProfileToVideoCallFragment()
             findNavController().navigate(action)
         }
 
 
-            return view
-        }
+        return view
+    }
 
 
+    // get information about specific teacher which is the student click on
+    private fun readFireData() {
+        val fireStore = FirebaseFirestore.getInstance()
+        fireStore.collection("Users") // .whereEqualTo("fullName",Firebase.auth.currentUser.uid)
+            .whereEqualTo("email", args.email)
+            .addSnapshotListener { value, error ->
+                // Log.e("fromProfile" , "the value is ${value?.data}")
+                val result = value?.toObjects(User::class.java)?.get(0)
+                teacherName.text = result?.fullName
+                teacherInfo.text = result?.teacherExperience
+                teacherEmail.text = result?.email
+                teacherUid = result?.uid!!
+
+            }
+
+    }
 
 
-        private fun readFireData() {
-            val fireStore = FirebaseFirestore.getInstance()
-            fireStore.collection("Users") // .whereEqualTo("fullName",Firebase.auth.currentUser.uid)
-                .whereEqualTo("email", args.email)
-                .addSnapshotListener { value, error ->
-                    // Log.e("fromProfile" , "the value is ${value?.data}")
-                    val result = value?.toObjects(User::class.java)?.get(0)
-                    teacherName.text = result?.fullName
-                    teacherInfo.text = result?.teacherExperience
-                    teacherEmail.text = result?.email
-                    teacherUid = result?.uid!!
+    fun addRating(teacherId: String, ratingTeacher: RatingDataClass, studentId: String) {
 
-                }
-
-        }
+        fireStore.collection("Users")
+            .whereEqualTo("email", args.email)
+            .addSnapshotListener { value, error ->
+                // Log.e("fromProfile" , "the value is ${value?.data}")
+                val result = value?.toObjects(User::class.java)?.get(0)
+                teacherUid = result?.uid!!
+                rating = result.rating.toString()
 
 
+                val newRating: MutableList<RatingDataClass> = result.rating.toMutableList()
+                    newRating.add(ratingTeacher)
+                         fireStore.collection("Users").document(teacherUid)
+                                 .update("rating", newRating)
+
+
+//                if (result.rating == newRating) {
+//                    fireStore.collection("Users").document(teacherUid)
+//                        .update("rating",FieldValue.arrayUnion(ratingTeacher))
+//                } else {
+//                    newRating.add(ratingTeacher)
+//                    fireStore.collection("Users").document(teacherUid).update("rating", newRating)
+//                }
+
+            }
+
+    }
 
 
 }

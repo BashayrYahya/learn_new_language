@@ -103,14 +103,7 @@ class StudentEditProfileFragment : Fragment() {
             } else {
                 View.GONE
             }
-        teacherExperience.visibility =
-            if (firestore.collection("Users") == firestore.collection("Users")
-                    .whereEqualTo("isAdmin", "1")
-            ) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
+
     }
 
     // upload photo in a profile img
@@ -160,7 +153,7 @@ private fun readFireStoreData() {
     }
 
     //  fun to save and update profile in fireStore
-    fun updateFireStore(fullName: String, emailEdit: String, phoneNum:String,
+    private fun updateFireStore(fullName: String, emailEdit: String, phoneNum:String,
                         teacherExperience:String) {
 
         val user: MutableMap<String, Any> = HashMap()

@@ -86,20 +86,23 @@ dependencies {
    // shared pref
     implementation 'androidx.preference:preference-ktx:1.1.1'
 
-
-    //agora
-    implementation 'io.agora.uikit:agorauikit:2.0.1'
-    implementation 'io.agora.rtc:full-sdk:x.y.z'
-    implementation fileTree (dir:'libs',includes: ['*.jar'])
-    androidTestImplementation 'androidx.test.rules:1.2.0'
-    implementation 'commons-codec:commons-codec:1.15'
-
-    //coroutines and lifecycle
+//coroutines and lifecycle
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
 
+
+
+    //agora video call
+    implementation 'io.agora.uikit:agorauikit:2.0.1'
+    implementation 'io.agora.rtc:full-sdk:x.y.z'
+    implementation fileTree (dir:'libs',includes: ['*.jar'])
+    androidTestImplementation 'androidx.test.rules:1.2.0'
+    implementation 'commons-codec:commons-codec:1.15'
+    //easy permissions for permissions
+    implementation 'com.vmadalin:easypermissions-ktx:1.0.0'
+   
 
     implementation "androidx.compose.compiler:compiler:1.1.0-rc02"
 }

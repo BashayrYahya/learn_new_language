@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 
@@ -34,6 +35,7 @@ class FragmentShowTeacherProfile : Fragment() {
     lateinit var rateTv: TextView
     lateinit var videoCallImg: ImageView
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private lateinit var navController: NavController
     private val profileViewModel: ProfileViewModel by lazy { ViewModelProvider(this)[ProfileViewModel::class.java] }
 
     val args: FragmentShowTeacherProfileArgs by navArgs()
@@ -43,6 +45,7 @@ class FragmentShowTeacherProfile : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        navController = NavController(requireContext())
         readFireData()
     }
 
@@ -95,6 +98,8 @@ class FragmentShowTeacherProfile : Fragment() {
             val action =
                 FragmentShowTeacherProfileDirections.actionFragmentShowTeacherProfileToVideoCallFragment()
             findNavController().navigate(action)
+
+      //     navController.navigate(R.id.videoCallFragment)
         }
 
 
